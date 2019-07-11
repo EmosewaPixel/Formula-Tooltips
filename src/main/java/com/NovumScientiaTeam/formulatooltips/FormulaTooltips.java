@@ -7,6 +7,7 @@ import com.EmosewaPixel.pixellib.materialsystem.lists.MaterialItems;
 import com.EmosewaPixel.pixellib.materialsystem.materials.Material;
 import com.EmosewaPixel.pixellib.materialsystem.materials.MaterialStack;
 import com.EmosewaPixel.pixellib.materialsystem.materials.utility.GroupMaterial;
+import com.EmosewaPixel.pixellib.materialsystem.materials.utility.TransitionMaterial;
 import net.minecraft.block.Block;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
@@ -52,12 +53,15 @@ public class FormulaTooltips {
                 return "·" + ms.getCount() + "H2O";
             if (ms.getMaterial() instanceof GroupMaterial)
                 if (ms.getCount() > 1)
-                    return "(" + ElementUtils.getElementalComposition(ms.getMaterial()).stream().map(s -> s.getElement().getSymbol() + s.getCount()).collect(Collectors.toList()).toString() + ")" + ms.getCount();
+                    return "(" + ElementUtils.getElementalComposition(ms.getMaterial()).stream().map(s -> s.getElement().getSymbol() + (s.getCount() > 1 ? s.getCount() : "")).collect(Collectors.joining()) + ")" + ms.getCount();
                 else
-                    return ElementUtils.getElementalComposition(ms.getMaterial()).stream().map(s -> s.getElement().getSymbol() + s.getCount()).collect(Collectors.toList()).toString();
+                    return ElementUtils.getElementalComposition(ms.getMaterial()).stream().map(s -> s.getElement().getSymbol() + s.getCount()).collect(Collectors.joining());
             List<MaterialStack> composition = ms.getMaterial().getComposition();
-            if (composition.size() == 1)
+            if (composition.size() == 1) {
+                if (composition.get(0).getMaterial() instanceof TransitionMaterial)
+                    return getFormulaString(composition.get(0).getMaterial()) + ms.getCount() * composition.get(0).getCount();
                 return getFormulaString(ms.getMaterial()) + ms.getCount();
+            }
             if (composition.size() > 1)
                 if (ms.getCount() > 1)
                     return "(" + getFormulaString(ms.getMaterial()) + ")" + ms.getCount();
@@ -65,6 +69,6 @@ public class FormulaTooltips {
                     return getFormulaString(ms.getMaterial());
             return ms.getMaterial().getElement().getSymbol() + (ms.getCount() > 1 ? ms.getCount() : "");
         })
-                .collect(Collectors.toList()).toString();
+                .collect(Collectors.joining());
     }
 }
