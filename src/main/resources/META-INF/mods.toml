@@ -22,12 +22,12 @@ description="A mod adding tooltips with the chemical formulas for items made fro
 [[dependencies.formulatooltips]]
     modId="pixellib"
     mandatory=true
-    versionRange="[1.0.5,]"
+    versionRange="[1.0.6,]"
     ordering="AFTER"
     side="BOTH"
 [[dependencies.formulatooltips]]
     modId="jei"
     mandatory=false
-    versionRange="[6.0.0.2,)"
+    versionRange="[6.0.0.6,)"
     ordering="AFTER"
     side="BOTH"

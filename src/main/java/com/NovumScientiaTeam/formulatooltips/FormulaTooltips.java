@@ -1,12 +1,12 @@
-package com.EmosewaPixel.formulatooltips;
+package com.NovumScientiaTeam.formulatooltips;
 
-import com.EmosewaPixel.pixellib.materialSystem.MaterialRegistry;
-import com.EmosewaPixel.pixellib.materialSystem.element.ElementUtils;
-import com.EmosewaPixel.pixellib.materialSystem.lists.MaterialBlocks;
-import com.EmosewaPixel.pixellib.materialSystem.lists.MaterialItems;
-import com.EmosewaPixel.pixellib.materialSystem.materials.Material;
-import com.EmosewaPixel.pixellib.materialSystem.materials.MaterialStack;
-import com.EmosewaPixel.pixellib.materialSystem.materials.utility.GroupMaterial;
+import com.EmosewaPixel.pixellib.materialsystem.MaterialRegistry;
+import com.EmosewaPixel.pixellib.materialsystem.element.ElementUtils;
+import com.EmosewaPixel.pixellib.materialsystem.lists.MaterialBlocks;
+import com.EmosewaPixel.pixellib.materialsystem.lists.MaterialItems;
+import com.EmosewaPixel.pixellib.materialsystem.materials.Material;
+import com.EmosewaPixel.pixellib.materialsystem.materials.MaterialStack;
+import com.EmosewaPixel.pixellib.materialsystem.materials.utility.GroupMaterial;
 import net.minecraft.block.Block;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
