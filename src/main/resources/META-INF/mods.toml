@@ -1,5 +1,5 @@
-modLoader="javafml"
-loaderVersion="[27,)"
+modLoader="kotlinfml"
+loaderVersion="[1,)"
 issueTrackerURL="http://my.issue.tracker/" #optional
 [[mods]]
 modId="formulatooltips"
@@ -10,24 +10,18 @@ description="A mod adding tooltips with the chemical formulas for items made fro
 [[dependencies.formulatooltips]]
     modId="forge"
     mandatory=true
-    versionRange="[27,)"
+    versionRange="[28,)"
     ordering="NONE"
     side="BOTH"
 [[dependencies.formulatooltips]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.14.3]"
+    versionRange="[1.14.4]"
     ordering="NONE"
     side="BOTH"
 [[dependencies.formulatooltips]]
     modId="pixellib"
     mandatory=true
-    versionRange="[1.0.6,]"
-    ordering="AFTER"
-    side="BOTH"
-[[dependencies.formulatooltips]]
-    modId="jei"
-    mandatory=false
-    versionRange="[6.0.0.6,)"
+    versionRange="[1.0.7,]"
     ordering="AFTER"
     side="BOTH"
