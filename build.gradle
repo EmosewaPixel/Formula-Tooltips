@@ -63,7 +63,7 @@ configurations {
 }
 
 dependencies {
-    minecraft "net.minecraftforge:forge:$mc_version-28.0.81"
+    minecraft "net.minecraftforge:forge:$mc_version-28.1.0"
     compile files("libs/pixellib-$mc_version-$lib_version-deobf.jar")
     compile "kottle:Kottle:$kottle_version"
     mod "kottle:Kottle:$kottle_version"
