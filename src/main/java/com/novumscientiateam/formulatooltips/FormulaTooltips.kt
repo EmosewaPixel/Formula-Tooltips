@@ -47,24 +47,26 @@ object GameEvents {
                 mat.element.symbol
             else
                 mat.composition.map { (material, count) ->
-                    if (material === MaterialRegistry.WATER)
-                        "·" + count + "H2O"
-                    if (material is GroupMaterial)
-                        if (count > 1)
-                            "(${ElementUtils.getElementalComposition(material).map { it.element.symbol + if (it.count > 1) it.count else "" }.joinToString(separator = "", transform = { it })})$count"
-                        else
-                            ElementUtils.getElementalComposition(material).map { it.element.symbol + it.count }.joinToString(separator = "", transform = { it })
                     val composition = material.composition
-                    if (composition.size == 1) {
-                        if (composition[0].material is TransitionMaterial)
-                            getFormulaString(composition[0].material) + count * composition[0].count
-                        getFormulaString(material) + count
+                    when {
+                        material === MaterialRegistry.WATER ->
+                            "·" + count + "H2O"
+                        material is GroupMaterial ->
+                            if (count > 1)
+                                "(${ElementUtils.getElementalComposition(material).map { it.element.symbol + if (it.count > 1) it.count else "" }.joinToString(separator = "", transform = { it })})$count"
+                            else
+                                ElementUtils.getElementalComposition(material).map { it.element.symbol + it.count }.joinToString(separator = "", transform = { it })
+                        composition.size == 1 ->
+                            if (composition[0].material is TransitionMaterial)
+                                getFormulaString(composition[0].material) + count * composition[0].count
+                            else
+                                getFormulaString(material) + count
+                        composition.isNotEmpty() ->
+                            if (count > 1)
+                                "(${getFormulaString(material)})$count"
+                            else
+                                getFormulaString(material)
+                        else -> material.element.symbol + if (count > 1) count else ""
                     }
-                    if (composition.isNotEmpty())
-                        if (count > 1)
-                            "(${getFormulaString(material)})$count"
-                        else
-                            getFormulaString(material)
-                    material.element.symbol + if (count > 1) count else ""
                 }.joinToString(separator = "", transform = { it })
 }
