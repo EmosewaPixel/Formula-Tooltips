@@ -1,5 +1,6 @@
 package com.novumscientiateam.formulatooltips
 
+import com.emosewapixel.pixellib.extensions.toSubscipt
 import com.emosewapixel.pixellib.materialsystem.MaterialRegistry
 import com.emosewapixel.pixellib.materialsystem.element.ElementUtils
 import com.emosewapixel.pixellib.materialsystem.lists.MaterialBlocks
@@ -50,23 +51,23 @@ object GameEvents {
                     val composition = material.composition
                     when {
                         material === MaterialRegistry.WATER ->
-                            "·" + count + "H2O"
+                            "·" + count + "H₂O"
                         material is GroupMaterial ->
                             if (count > 1)
-                                "(${ElementUtils.getElementalComposition(material).map { it.element.symbol + if (it.count > 1) it.count else "" }.joinToString(separator = "", transform = { it })})$count"
+                                "(${ElementUtils.getElementalComposition(material).map { it.element.symbol + if (it.count > 1) it.count.toSubscipt() else "" }.joinToString(separator = "", transform = { it })})${count.toSubscipt()}"
                             else
-                                ElementUtils.getElementalComposition(material).map { it.element.symbol + it.count }.joinToString(separator = "", transform = { it })
+                                ElementUtils.getElementalComposition(material).map { it.element.symbol + it.count.toSubscipt() }.joinToString(separator = "", transform = { it })
                         composition.size == 1 ->
                             if (composition[0].material is TransitionMaterial)
-                                getFormulaString(composition[0].material) + count * composition[0].count
+                                getFormulaString(composition[0].material) + (count * composition[0].count).toSubscipt()
                             else
-                                getFormulaString(material) + count
+                                getFormulaString(material) + count.toSubscipt()
                         composition.isNotEmpty() ->
                             if (count > 1)
-                                "(${getFormulaString(material)})$count"
+                                "(${getFormulaString(material)})${count.toSubscipt()}"
                             else
                                 getFormulaString(material)
-                        else -> material.element.symbol + if (count > 1) count else ""
+                        else -> material.element.symbol + if (count > 1) count.toSubscipt() else ""
                     }
                 }.joinToString(separator = "", transform = { it })
 }
