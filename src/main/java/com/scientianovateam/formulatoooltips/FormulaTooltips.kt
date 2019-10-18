@@ -1,10 +1,10 @@
-package com.novumscientiateam.formulatooltips
+package com.scientianovateam.formulatoooltips
 
 import com.emosewapixel.pixellib.extensions.round
 import com.emosewapixel.pixellib.extensions.shorten
 import com.emosewapixel.pixellib.extensions.toSubscipt
-import com.emosewapixel.pixellib.materialsystem.MaterialRegistry
-import com.emosewapixel.pixellib.materialsystem.element.ElementUtils
+import com.emosewapixel.pixellib.materialsystem.addition.MaterialRegistry
+import com.emosewapixel.pixellib.materialsystem.elements.ElementUtils
 import com.emosewapixel.pixellib.materialsystem.lists.MaterialBlocks
 import com.emosewapixel.pixellib.materialsystem.lists.MaterialItems
 import com.emosewapixel.pixellib.materialsystem.materials.CompoundType
