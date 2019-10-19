@@ -3,7 +3,7 @@ package com.scientianovateam.formulatoooltips
 import com.emosewapixel.pixellib.extensions.round
 import com.emosewapixel.pixellib.extensions.shorten
 import com.emosewapixel.pixellib.extensions.toSubscipt
-import com.emosewapixel.pixellib.materialsystem.addition.MaterialRegistry
+import com.emosewapixel.pixellib.materialsystem.addition.BaseMaterials
 import com.emosewapixel.pixellib.materialsystem.elements.ElementUtils
 import com.emosewapixel.pixellib.materialsystem.lists.MaterialBlocks
 import com.emosewapixel.pixellib.materialsystem.lists.MaterialItems
@@ -66,14 +66,14 @@ object GameEvents {
                 }.joinToString { it }
             }
 
-    private fun getFormulaString(mat: Material): String =
+    private fun getFormulaString(mat: Material, split: Boolean = false): String =
             if (mat.composition.isEmpty())
                 mat.element.symbol
             else
                 mat.composition.map { (material, count) ->
                     val composition = material.composition
                     when {
-                        material === MaterialRegistry.WATER ->
+                        material === BaseMaterials.WATER ->
                             "·" + count + "H₂O"
                         material is GroupMaterial ->
                             if (count > 1)
@@ -87,10 +87,10 @@ object GameEvents {
                                 getFormulaString(material) + count.toSubscipt()
                         composition.isNotEmpty() ->
                             if (count > 1)
-                                "(${getFormulaString(material)})${count.toSubscipt()}"
+                                "(${getFormulaString(material, material.compoundType == CompoundType.ALLOY)})${count.toSubscipt()}"
                             else
-                                getFormulaString(material)
+                                getFormulaString(material, material.compoundType == CompoundType.ALLOY)
                         else -> material.element.symbol + if (count > 1) count.toSubscipt() else ""
                     }
-                }.joinToString("") { it }
+                }.joinToString(if (split) ", " else "") { it }
 }
