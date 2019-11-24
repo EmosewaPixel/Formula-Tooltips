@@ -5,16 +5,12 @@ import com.emosewapixel.pixellib.extensions.shorten
 import com.emosewapixel.pixellib.extensions.toSubscipt
 import com.emosewapixel.pixellib.materialsystem.addition.BaseMaterials
 import com.emosewapixel.pixellib.materialsystem.elements.ElementUtils
-import com.emosewapixel.pixellib.materialsystem.lists.MaterialBlocks
-import com.emosewapixel.pixellib.materialsystem.lists.MaterialItems
-import com.emosewapixel.pixellib.materialsystem.materials.CompoundType
-import com.emosewapixel.pixellib.materialsystem.materials.Material
-import com.emosewapixel.pixellib.materialsystem.materials.utility.GroupMaterial
-import com.emosewapixel.pixellib.materialsystem.materials.utility.MaterialStack
-import com.emosewapixel.pixellib.materialsystem.materials.utility.TransitionMaterial
+import com.emosewapixel.pixellib.materialsystem.lists.Materials
+import com.emosewapixel.pixellib.materialsystem.main.Material
+import com.emosewapixel.pixellib.materialsystem.main.MaterialStack
+import com.emosewapixel.pixellib.materialsystem.properties.CompoundType
+import com.emosewapixel.pixellib.materialsystem.properties.DisplayType
 import net.alexwells.kottle.KotlinEventBusSubscriber
-import net.minecraft.block.Block
-import net.minecraft.item.BlockItem
 import net.minecraft.util.text.StringTextComponent
 import net.minecraft.util.text.TextFormatting
 import net.minecraftforge.api.distmarker.Dist
@@ -33,16 +29,7 @@ object GameEvents {
     fun tooltipEvent(e: ItemTooltipEvent) {
         val formula: String
         val item = e.itemStack.item
-        if (item is BlockItem) {
-            val block = Block.getBlockFromItem(item)
-            if (block in MaterialBlocks) {
-                val mat = MaterialBlocks.getBlockMaterial(block)!!
-                formula = if (mat.compoundType == CompoundType.ALLOY) getCompositionString(mat) else getFormulaString(mat)
-                if (formula != "?")
-                    e.toolTip.add(StringTextComponent(TextFormatting.GRAY.toString() + formula))
-            }
-        } else if (item in MaterialItems) {
-            val mat = MaterialItems.getItemMaterial(item)!!
+        item.tags.asSequence().filter { '/' in it.path }.map { Materials[it.path.takeLastWhile { char -> char != '/' }] }.firstOrNull()?.let { mat ->
             formula = if (mat.compoundType == CompoundType.ALLOY) getCompositionString(mat) else getFormulaString(mat)
             if (formula != "?")
                 e.toolTip.add(StringTextComponent(TextFormatting.GRAY.toString() + formula))
@@ -75,13 +62,15 @@ object GameEvents {
                     when {
                         material === BaseMaterials.WATER ->
                             "·" + count + "H₂O"
-                        material is GroupMaterial ->
+                        material.displayType == DisplayType.GROUP ->
                             if (count > 1)
-                                "(${ElementUtils.getElementalComposition(material).map { it.element.symbol + if (it.count > 1) it.count.toSubscipt() else "" }.joinToString(separator = "", transform = { it })})${count.toSubscipt()}"
+                                "(${ElementUtils.getElementalComposition(material)
+                                        .map { it.element.symbol + if (it.count > 1) it.count.toSubscipt() else "" }
+                                        .joinToString("") { it }})${count.toSubscipt()}"
                             else
                                 ElementUtils.getElementalComposition(material).map { it.element.symbol + it.count.toSubscipt() }.joinToString("") { it }
                         composition.size == 1 ->
-                            if (composition[0].material is TransitionMaterial)
+                            if (composition[0].material.transitionProperties != null)
                                 getFormulaString(composition[0].material) + (count * composition[0].count).toSubscipt()
                             else
                                 getFormulaString(material) + count.toSubscipt()
