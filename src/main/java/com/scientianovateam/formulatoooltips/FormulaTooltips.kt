@@ -5,7 +5,7 @@ import com.emosewapixel.pixellib.extensions.shorten
 import com.emosewapixel.pixellib.extensions.toSubscipt
 import com.emosewapixel.pixellib.materialsystem.addition.BaseMaterials
 import com.emosewapixel.pixellib.materialsystem.elements.ElementUtils
-import com.emosewapixel.pixellib.materialsystem.lists.Materials
+import com.emosewapixel.pixellib.materialsystem.lists.MaterialItems
 import com.emosewapixel.pixellib.materialsystem.main.Material
 import com.emosewapixel.pixellib.materialsystem.main.MaterialStack
 import com.emosewapixel.pixellib.materialsystem.properties.CompoundType
@@ -29,7 +29,7 @@ object GameEvents {
     fun tooltipEvent(e: ItemTooltipEvent) {
         val formula: String
         val item = e.itemStack.item
-        item.tags.asSequence().filter { '/' in it.path }.map { Materials[it.path.takeLastWhile { char -> char != '/' }] }.firstOrNull()?.let { mat ->
+        MaterialItems.getItemMaterial(item)?.let { mat ->
             formula = if (mat.compoundType == CompoundType.ALLOY) getCompositionString(mat) else getFormulaString(mat)
             if (formula != "?")
                 e.toolTip.add(StringTextComponent(TextFormatting.GRAY.toString() + formula))
